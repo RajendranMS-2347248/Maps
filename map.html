@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <title>
+        Maps-embed
+    </title>
+        <head>
+            Map with the current location
+            <link href="pin.svg">
+        </head>
+        <body>
+            <p>Time:<span id="Time"></span></p>
+            <p>Latitude:<span id="Latitude"></span></p>
+            <p>Longitude:<span id="Longitude"></span></p>
+        
+            <div id="errorArea" class="alert d-none"></div>
+            <a href="https://www.google.com/maps/@12.959744,77.6044544,"></a>
+            <a href="pin.svg"></a>
+       
+    <script>
+        'use strict';
+        window.onload=function()
+        {
+            if(navigator.geolocation)
+            {
+                navigator.geolocation.getCurrentPosition(displayPosition,locationerror)
+            }
+            else
+            {
+                displayError("Please update your browser with Geolocation");
+            }
+        };
+    function displayPosition(pos)
+    {
+        document.getElementById("Time").innerText=newDate(pos.time)
+        document.getElementById("Latitude").innerText=pos.coords.latitude
+        document.getElementById("Longitude").innerText=pos.coords.longitude
+    }
+
+    function locationerror(error)
+    {
+        let msg = " ";
+        console.log("error.message=" + errormessage);
+        switch(error.code)
+        {
+            case error.PERMISSION_DENIED:
+                msg="User does not want to share their location!";
+                break;
+            case error.PERMISSION_UNAVAILABLE:
+                msg="Cannot determine user's position!!";
+                break;
+            case error.TIMEOUT:
+                msg:"Response timed out!!";
+                break;
+            case error.UNKNOWN_ERROR:
+                msg="Unknown error!!"
+                break;
+        }
+    displayError(msg)
+
+    function displayError(msg){
+        let elem=document.getElementById("errorArea")
+        elem.classList.remove("d-none");
+        elem.innerHTML=msg;
+        }
+    }
+    </script>
+</body>    
+</html>
